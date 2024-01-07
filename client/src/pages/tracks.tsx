@@ -1,5 +1,6 @@
 import React from "react";
-import { Layout } from "../components";
+import { Layout, QueryResult } from "../components";
+import TrackCard from "../containers/track-card";
 import {gql} from "../__generated__/";
 import {useQuery} from "@apollo/client";
 
@@ -27,11 +28,17 @@ const TRACKS = gql(`
  * We display a grid of tracks fetched with useQuery with the TRACKS query
  */
 const Tracks = () => {
-  const {loading, error, data} = useQuery(TRACKS); // get data from useQuery
-  if (loading) return "Loading..."; // As long as loading is true (indicating the query is still in flight), the component will just render a Loading... message.
-  if (error) return `Error! ${error.message}`; // if there was an error after loading (loading == false)
+  const {loading, error, data} = useQuery(TRACKS); // useQuery -> to execute queries in out frontend app
+  //if (loading) return "Loading..."; // As long as loading is true (indicating the query is still in flight), the component will just render a Loading... message.
+  //if (error) return `Error! ${error.message}`; // if there was an error after loading (loading == false)
 
-  return <Layout grid>{JSON.stringify(data)}</Layout>;
+  return <Layout grid>
+    <QueryResult loading={loading} error={error} data={data}>
+      {data?.tracksForHome?.map(track => (
+          <TrackCard key={track.id} track={track}/>
+      ))}
+    </QueryResult>
+  </Layout>;
 };
 
 export default Tracks;
