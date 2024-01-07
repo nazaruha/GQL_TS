@@ -5,7 +5,7 @@ export const typeDefs = gql`
         Schema definitions go here
     """
     
-    "Here we tell the GraphQL server what we want to retrieve when we query it"
+    # Here we tell the GraphQL server what we want to retrieve when we query it#
     type Query {
         "Get tracks array for homepage grid"
         tracksForHome: [Track!]!
